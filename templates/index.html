@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌤 Singapore Weather App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Search Box Styles */
+        .search-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: 'Poppins', Arial, sans-serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-button {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+
+        .search-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .search-button:active {
+            transform: translateY(0);
+        }
+
+        /* Weather Card Styles */
+        .weather-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weather-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .weather-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .weather-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .area-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .forecast-text {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: white;
+            padding: 60px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input {
+                min-width: 100%;
+            }
+
+            .search-button {
+                width: 100%;
+            }
+
+            .forecast-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .weather-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌤 Singapore Weather App</h1>
+            <p>Get real-time 2hours weather forecasts for Singapore locations as of {{timestamp}} from {{period}}</p>
+        </div>
+
+        <div class="search-container">
+            <form method="POST" class="search-form">
+                <input type="text" name="location" class="search-input"
+                    placeholder="Enter location (e.g., Jurong East, Tampines, Woodlands)..." required />
+                <button type="submit" class="search-button">🔍 Search Weather</button>
+            </form>
+        </div>
+
+        {% if weather_data %}
+        <div class="weather-card">
+            <div class="weather-icon">
+                {% if 'Thundery' in weather_data.forecast or 'Thunder' in weather_data.forecast %}
+                ⛈️
+                {% elif 'Showers' in weather_data.forecast or 'Rain' in weather_data.forecast %}
+                🌧️
+                {% elif 'Cloudy' in weather_data.forecast %}
+                ☁️
+                {% elif 'Fair' in weather_data.forecast or 'Sunny' in weather_data.forecast %}
+                ☀️
+                {% elif 'Partly Cloudy' in weather_data.forecast %}
+                ⛅
+                {% elif 'Hazy' in weather_data.forecast %}
+                🌫️
+                {% elif 'Windy' in weather_data.forecast %}
+                💨
+                {% else %}
+                🌤️
+                {% endif %}
+            </div>
+            <div class="area-name">{{ weather_data.area }}</div>
+            <div class="forecast-text">{{ weather_data.forecast }}</div>
+        </div>
+
+        {% elif not_found %}
+        <div class="weather-card" style="text-align:center; background:#ffe6e6; border: 2px solid #ff4d4d;">
+            <div class="weather-icon" style="font-size:3rem;">❌</div>
+            <div class="area-name" style="color:#ff4d4d;">{{not_found}}</div>
+            <div class="forecast-text" style="color:#a94442; font-weight:400;">
+                Please check the spelling or try another Singapore location.
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state">
+            <div class="empty-state-icon">🌏</div>
+            <h2>Welcome!</h2>
+            <p>Enter a Singapore location above to view the weather forecast</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
