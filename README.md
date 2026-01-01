@@ -203,9 +203,9 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Flask framework and community
 - Google Fonts (Poppins)
 
-## 📧 Contact
+## 🚀 Deployment
 
-For questions or feedback, please open an issue on GitHub.
+Deployment Link: https://singapore-weather-app.vercel.app
 
 ---
 
